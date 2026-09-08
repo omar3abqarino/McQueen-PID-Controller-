@@ -64,14 +64,18 @@ class PID_Controller:
         dterm = self.kd * (delta_e/dt)
 
         #final equation
-        u_t = pterm + iterm + dterm
+        self.u_t = pterm + iterm + dterm
 
 
         #updating for next iteration
         self.last_error = self.current_error
         self.last_time = current_time
 
-        return u_t
+        return self.u_t
+
+
+    def telemetry(self, step_no, real_current_state):
+        print(f"Step: {step_no}, Current Error: {self.current_error}, Theoretical Output: {self.u_t}, Robot Current State: {real_current_state}")
 
 
 
