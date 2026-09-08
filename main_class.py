@@ -23,8 +23,8 @@ class PID_Controller:
         print("Target Recieved!!")
 
     def error_deadzone(self):
-        if abs(self.current_error - self.last_error) > 1.0:
-            return self.current_error - self.last_error
+        if abs(self.target - self.current_state) > 0.5:
+            return self.target - self.current_state
         else:
             return 0.0
 
@@ -39,7 +39,7 @@ class PID_Controller:
 
         if not self.last_time:
             self.last_time = current_time
-            return False
+            return False, self.error_deadzone()
 
         #dt
         dt = current_time - self.last_time
@@ -71,7 +71,7 @@ class PID_Controller:
         self.last_error = self.current_error
         self.last_time = current_time
 
-        return self.u_t
+        return self.u_t, self.current_error
 
 
     def telemetry(self, step_no, real_current_state):

@@ -1,25 +1,30 @@
 from main_class import PID_Controller
 import time
 
-n_steps = input("Enter number of steps desired: ")
-
 #creating an instance
-pid = PID_Controller(1, 0.3, 1)
-pid.recieve_target(100)
+target = 50
+pid = PID_Controller(1.71, 1.37, 0.15)
+pid.recieve_target(target)
 current_state = 0.0
 
-
-for i in range(1, n_steps + 1, 1):
+step = 1
+while True:
     pid.update_current(current_state)
-    output = pid.compute()
+    output, current_error = pid.compute()
 
+    if current_error == 0.0:
+        print("Target Reached!!")
+        break
     #first time
     if not output:
+        print("shit")
         time.sleep(0.1)
         continue
 
-    current_state += output * 0.1
-    pid.telemetry(i, current_state)
+    current_state += (output - current_state) * 0.1
+    pid.telemetry(step, current_state)
+    time.sleep(0.1)
+    step += 1
 
 
 
