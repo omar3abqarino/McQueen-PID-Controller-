@@ -3,7 +3,7 @@ import time
 
 #creating an instance
 target = 50
-pid = PID_Controller(1.71, 1.37, 0.15)
+pid = PID_Controller(1.62, 1.37, 0.12)
 pid.recieve_target(target)
 current_state = 0.0
 
